@@ -3,5 +3,28 @@
 # ES_MEM_PC must be passed on docker run:
 #  sudo docker run -e ES_MEM_PC=70 ...
 
+tee /elasticsearch/config/elasticsearch.yml <<EOF
+cluster.name: "$ES_CLUSTER_NAME"
+node.name: "$ES_CLUSTER_NODE"
+index.number_of_replicas: 2
+
+path.data:    /storage/elasticsearch/data
+path.work:    /storage/elasticsearch/work
+path.logs:    /storage/elasticsearch/logs
+path.plugins: /storage/elasticsearch/plugins
+
+bootstrap.mlockall: true
+transport.tcp.compress: true
+discovery.zen.ping.multicast.enabled: false
+script.disable_dynamic: true
+action.disable_shutdown: true
+
+discovery.zen.fd.ping_timeout: 30s
+discovery.zen.minimum_master_nodes: 2
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: [$ES_CLUSTER_PEERS]
+EOF
+
+
 export ES_HEAP_SIZE="$(($(free -m|grep '^Mem:'|awk '{print $2}') * $ES_MEM_PC / 100))m"
 exec /elasticsearch/bin/elasticsearch
