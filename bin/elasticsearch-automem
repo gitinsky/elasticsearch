@@ -27,4 +27,7 @@ EOF
 
 
 export ES_HEAP_SIZE="$(($(free -m|grep '^Mem:'|awk '{print $2}') * $ES_MEM_PC / 100))m"
+
+ulimit -l unlimited
+
 exec /elasticsearch/bin/elasticsearch
