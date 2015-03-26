@@ -1,5 +1,7 @@
-#!/bin/sh
+#!/bin/sh -eu
 
-memPc=70
-export ES_HEAP_SIZE="$(($(free -m|grep '^Mem:'|awk '{print $2}') * $memPc / 100))m"
+# ES_MEM_PC must be passed on docker run:
+#  sudo docker run -e ES_MEM_PC=70 ...
+
+export ES_HEAP_SIZE="$(($(free -m|grep '^Mem:'|awk '{print $2}') * $ES_MEM_PC / 100))m"
 exec /elasticsearch/bin/elasticsearch
