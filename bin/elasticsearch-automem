@@ -1,3 +1,5 @@
+#!/bin/sh
+
 memPc=70
 export ES_HEAP_SIZE="$(($(free -m|grep '^Mem:'|awk '{print $2}') * $memPc / 100))m"
 exec /elasticsearch/bin/elasticsearch
