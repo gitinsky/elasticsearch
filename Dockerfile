@@ -23,12 +23,13 @@ VOLUME ["/data"]
 # Mount elasticsearch.yml config
 ADD config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
 ADD bin/elasticsearch.in.sh /elasticsearch/bin/elasticsearch.in.sh
+ADD bin/elasticsearch-automem /elasticsearch/bin/elasticsearch-automem
 
 # Define working directory.
 WORKDIR /data
 
 # Define default command.
-CMD ["/elasticsearch/bin/elasticsearch"]
+CMD ["/elasticsearch/bin/elasticsearch-automem"]
 
 # Expose ports.
 #   - 9200: HTTP
